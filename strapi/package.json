@@ -10,19 +10,19 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.10.5",
-    "@strapi/plugin-users-permissions": "4.10.5",
-    "@strapi/strapi": "4.10.5",
+    "@strapi/plugin-i18n": "4.12.4",
+    "@strapi/plugin-users-permissions": "4.12.4",
+    "@strapi/strapi": "4.12.4",
     "pg": "8.8.0"
   },
   "author": {
-    "name": "Shehabul Alam"
+    "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "9f2807a7-0031-42d2-b244-6f6a96eac247"
+    "uuid": "19b90128-3b32-442c-8738-56613581e0c0"
   },
   "engines": {
-    "node": ">=14.19.1 <=18.x.x",
+    "node": ">=16.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
   "license": "MIT"
