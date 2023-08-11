@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "work_experiences",
+  "info": {
+    "singularName": "work-experience",
+    "pluralName": "work-experiences",
+    "displayName": "WorkExperience"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "designation": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Internship",
+        "Full Time",
+        "Part Time",
+        "Remote"
+      ],
+      "default": "Full Time"
+    },
+    "duration": {
+      "type": "string"
+    }
+  }
+}
