@@ -39,7 +39,7 @@ services:
       # Username: shehabul
       # Password: shehabul@1996
       # Generated using command -> echo $(htpasswd -nb shehabul shehabul@1996) | sed -e s/\\$/\\$\\$/g
-      - traefik.http.middlewares.traefik-auth.basicauth.users=shehabul:$apr1$vbutznre$fF1qzSAETcNzXi7PAEvCb0
+      - traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$apr1$$KFzOU66d$$3rg2ecOezlMk/RZTFdQXa/
       - traefik.http.services.api@internal.loadbalancer.server.port=8080
     ports:
       # The HTTP port
