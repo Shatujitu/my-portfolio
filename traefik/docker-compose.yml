@@ -36,8 +36,8 @@ services:
       - traefik.http.routers.traefik-secure.tls.certresolver=le
 
       - traefik.http.routers.traefik-secure.middlewares=traefik-auth
-      # Username: admin
-      # Password: tvs@traefik2023
+      # Username: shehabul
+      # Password: shehabul@1996
       # Generated using command -> echo $(htpasswd -nb shehabul shehabul@1996) | sed -e s/\\$/\\$\\$/g
       - traefik.http.middlewares.traefik-auth.basicauth.users=shehabul:$apr1$vbutznre$fF1qzSAETcNzXi7PAEvCb0
       - traefik.http.services.api@internal.loadbalancer.server.port=8080
