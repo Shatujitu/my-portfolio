@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  traefik:
+    env_file: .env
+    restart: always
+    # The official v2 Traefik docker image
+    image: traefik:v2.9
+    # Enables the web UI and tells Traefik to listen to docker
+    command: 
+      - --api
+      # - --api.debug=true
+      - --api.insecure=false
+      - --log.level=INFO
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.le.acme.email=${LETS_ENCRYPT_CONTACT_EMAIL}
+      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.le.acme.httpchallenge=true
+      - --certificatesresolvers.le.acme.httpchallenge.entrypoint=web
+    labels:
+      - "traefik.enable=true"
+      # http
+      - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_HOSTNAME}`)
+      - traefik.http.routers.traefik.entrypoints=web
+      - traefik.http.middlewares.traefik-redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.routers.traefik.middlewares=traefik-redirect-to-https
+      - traefik.http.routers.traefik.service=api@internal
+      # https
+      - traefik.http.routers.traefik-secure.rule=Host(`${TRAEFIK_HOSTNAME}`)
+      - traefik.http.routers.traefik-secure.entrypoints=websecure
+      - traefik.http.routers.traefik-secure.service=api@internal
+      - traefik.http.routers.traefik-secure.tls=true
+      - traefik.http.routers.traefik-secure.tls.certresolver=le
+
+      - traefik.http.routers.traefik-secure.middlewares=traefik-auth
+      # Username: admin
+      # Password: tvs@traefik2023
+      # Generated using command -> echo $(htpasswd -nb shehabul shehabul@1996) | sed -e s/\\$/\\$\\$/g
+      - traefik.http.middlewares.traefik-auth.basicauth.users=shehabul:$apr1$vbutznre$fF1qzSAETcNzXi7PAEvCb0
+      - traefik.http.services.api@internal.loadbalancer.server.port=8080
+    ports:
+      # The HTTP port
+      - "80:80"
+      - "443:443"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
