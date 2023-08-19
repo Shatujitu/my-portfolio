@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_blog_external_files",
+  "info": {
+    "displayName": "externalFiles",
+    "icon": "cast"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "file": {
+      "allowedTypes": [
+        "files"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
