@@ -1,4 +1,4 @@
-# my-portfolio
+# Portfolio Deployment Guide
 
 ### Postgres
 ```
@@ -12,7 +12,6 @@ docker compose -p portfolio --project-directory . -f postgres/docker-compose.yml
 ```
 docker compose -p portfolio --project-directory . -f strapi/docker-compose.yml build
 ```
-#### Up e-commerce
 ```
 docker compose -p portfolio --project-directory . -f strapi/docker-compose.yml up -d --scale strapi=2
 ```
