@@ -1,8 +1,0 @@
-.tmp/
-.cache/
-.git/
-.idea
-.vscode
-build/
-node_modules/
-data/
