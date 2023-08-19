@@ -16,12 +16,9 @@ services:
     restart: always
     env_file: postgres/.env
     ports:
-    - "5050:80"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
+      - "5050:80"
     depends_on:
       - db
 
 volumes:
   postgres_data:
-  pgadmin_data:

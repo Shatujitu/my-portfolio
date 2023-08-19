@@ -1,5 +1,7 @@
 version: '3'
+
 services:
+
   strapi:
     build:
       context: ./strapi
@@ -34,14 +36,13 @@ services:
       - traefik.http.routers.strapi-secure.tls=true
       - traefik.http.routers.strapi-secure.tls.certresolver=le
       - traefik.http.routers.strapi-secure.middlewares=gzip,sslheader,limit
-
       #====================================================== services ===========================================================
       - traefik.http.services.strapi.loadbalancer.server.port=1337
-
       #===================================================== middlewares =========================================================
       - traefik.http.middlewares.gzip.compress=true
       - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
       - traefik.http.middlewares.limit.buffering.memRequestBodyBytes=20971520
       - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=20971520
+
 volumes:
   uploads:
