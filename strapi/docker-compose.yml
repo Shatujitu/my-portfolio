@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  strapi:
+    build:
+      context: ./strapi
+      dockerfile: Dockerfile
+    restart: always
+    command: yarn start
+    env_file: ./strapi/.env
+    # environment:
+    #   - NODE_ENV=${NODE_ENV}
+    volumes:
+      - ./strapi/config:/opt/app/config
+      - ./strapi/src:/opt/app/src
+      - ./strapi/package.json:/opt/package.json
+      - ./strapi/yarn.lock:/opt/yarn.lock
+      - ./strapi/.env:/opt/app/.env
+      - ./strapi/public/uploads:/opt/app/public/uploads
+      - uploads:/opt/app/public/uploads
+    # expose:
+    #   - '1337'
+    labels:
+      - traefik.enable=true
+      # http
+      - traefik.http.routers.strapi.rule=Host(`admin.shehabul.me`)
+      - traefik.http.routers.strapi.entrypoints=web
+      - traefik.http.middlewares.strapi-redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.routers.strapi.middlewares=strapi-redirect-to-https@docker
+      - traefik.http.routers.strapi.service=strapi
+      # https
+      - traefik.http.routers.strapi-secure.rule=Host(`admin.shehabul.me`)
+      - traefik.http.routers.strapi-secure.entrypoints=websecure
+      - traefik.http.routers.strapi-secure.service=strapi
+      - traefik.http.routers.strapi-secure.tls=true
+      - traefik.http.routers.strapi-secure.tls.certresolver=le
+      - traefik.http.routers.strapi-secure.middlewares=gzip,sslheader,limit
+      #====================================================== services ===========================================================
+      - traefik.http.services.strapi.loadbalancer.server.port=1337
+      #===================================================== middlewares =========================================================
+      - traefik.http.middlewares.gzip.compress=true
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+      - traefik.http.middlewares.limit.buffering.memRequestBodyBytes=20971520
+      - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=20971520
+
+volumes:
+  uploads:
